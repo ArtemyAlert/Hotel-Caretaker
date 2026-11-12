@@ -2,16 +2,20 @@ using UnityEngine;
 
 public class ValveClick : MonoBehaviour
 {
-    // Ссылка на компонент Animator, который управляет анимациями
-    public Animator animatorTarget;
-
     void OnMouseDown()
     {
-        // Эта функция срабатывает автоматически при клике мышкой по объекту с коллайдером
-        if (animatorTarget != null)
+        // Ищем Animator на этом объекте ИЛИ на любом из родителей вверх по цепочке
+        Animator anim = GetComponentInParent<Animator>();
+
+        if (anim != null)
         {
-            // Запускает наш триггер "Play", активируя оба слоя в Animator Controller
-            animatorTarget.SetTrigger("Play");
+            // Отправляем триггер OpenWindow (или TurnValve, как ты назвал)
+            anim.SetTrigger("OpenWindow");
+            Debug.Log("Клик! Триггер отправлен.");
+        }
+        else
+        {
+            Debug.LogError("Не найден Animator ни на объекте, ни на родителях!");
         }
     }
 }
